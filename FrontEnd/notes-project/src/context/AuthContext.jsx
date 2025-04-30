@@ -24,8 +24,8 @@ function AuthProvider({ children }) {
         "https://notesapi-ebon.vercel.app/auth/me",
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
       setLoggedUser(response.data.user);
@@ -52,7 +52,7 @@ function AuthProvider({ children }) {
         {
           name,
           email,
-          password,
+          password
         }
       );
       localStorage.setItem("token", response.data.token);
@@ -77,7 +77,7 @@ function AuthProvider({ children }) {
         "https://notesapi-ebon.vercel.app/auth/login",
         {
           email,
-          password,
+          password
         }
       );
       localStorage.setItem("token", response.data.token);
@@ -109,7 +109,7 @@ function AuthProvider({ children }) {
         isLoading,
         signUp,
         login,
-        logout,
+        logout
       }}
     >
       {children}

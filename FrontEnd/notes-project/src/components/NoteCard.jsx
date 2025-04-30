@@ -25,10 +25,10 @@ function NoteCard({
       </div>
       <div className="text-sm text-gray-400 mt-2">{date}</div>
       <p className="text-gray-600 mt-2">
-        {content.length > 60 ? `${content.slice(0, 60)}...` : content}
+        {content?.length > 60 ? `${content?.slice(0, 60)}...` : content}
       </p>
       <div className="flex items-center justify-between mt-2">
-        <div className="text-gray-400">{tags}</div>
+        <div className="text-gray-400">{tags?.map((tag) => `#${tag} `)}</div>
         <div className="flex items-center gap-2">
           <IoMdCreate
             onClick={onEdit}

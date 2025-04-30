@@ -1,18 +1,29 @@
 import { IoMdClose } from "react-icons/io";
 import TagInput from "./TagInput";
 import { useState } from "react";
+import { useNotes } from "../context/NotesContext";
 
 function AddNote({ onClick, type, data }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tag, setTag] = useState("");
+  const [title, setTitle] = useState(data?.title || "");
+  const [content, setContent] = useState(data?.description || "");
+  const [tag, setTag] = useState(data?.tags || []);
   const [error, setError] = useState("");
-
-  const addNotes = async () => {};
-  const editNotes = async () => {};
+  const { createNote, isCreating, updateNote } = useNotes();
+  const addNotes = async () => {
+    const success = await createNote(title, content, tag);
+    if (success) {
+      onClick();
+    }
+  };
+  const editNotes = async () => {
+    const success = await updateNote(data._id, title, content, tag);
+    if (success) {
+      onClick();
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !content || !tag) {
+    if (!title || !content) {
       setError("Please fill all the fields");
       return;
     }
@@ -62,7 +73,11 @@ function AddNote({ onClick, type, data }) {
         )}
         {/* Submit Button */}
         <button className="bg-blue-500 text-white cursor-pointer hover:bg-blue-700 rounded-lg px-4 py-3">
-          Add Note
+          {isCreating
+            ? "Loading..."
+            : type === "edit"
+            ? "Edit Note"
+            : "Add Note"}
         </button>
       </form>
     </div>
