@@ -2,27 +2,68 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate
+  Navigate,
 } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import AppLayout from "./components/Applayout";
+import ProtectRoute from "./components/ProtectRoute";
+import PublicRoute from "./components/PublicRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* The AppLayout is the wrapper for all routes */}
-        <Route element={<AppLayout />}>
+    // <NotesProvider>
+    <AuthProvider>
+      <Router>
+        <Routes>
           <Route index element={<Navigate replace to="dashboard" />} />
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectRoute>
+                <Home />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/signUp"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+        </Routes>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: { duration: 3000 },
+            error: { duration: 5000 },
+            style: {
+              fontSize: "15px",
+              textAlign: "center",
+              maxWidth: "500px",
+              padding: "18px 24px",
+              backgroundColor: "#ffffff",
+              color: "#000000",
+            },
+          }}
+        />
+      </Router>
+    </AuthProvider>
   );
 }
 

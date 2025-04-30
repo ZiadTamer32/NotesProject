@@ -1,6 +1,6 @@
 export function getInitial(name) {
   const initial = name
-    .split(" ")
+    ?.split(" ")
     .map((word) => word[0])
     .join("")
     .toUpperCase();

@@ -33,7 +33,6 @@ exports.loginValidator = [
         throw new Error("User not found");
       }
       req.user = user;
-      // console.log(req.user);
       return true;
     }),
   body("password")
