@@ -18,7 +18,7 @@ exports.signUpValidator = [
       });
     }),
   body("password").notEmpty().withMessage("Password is required"),
-  ErrorValidator
+  ErrorValidator,
 ];
 
 exports.loginValidator = [
@@ -33,6 +33,7 @@ exports.loginValidator = [
         throw new Error("User not found");
       }
       req.user = user;
+      // console.log(req.user);
       return true;
     }),
   body("password")
@@ -49,5 +50,5 @@ exports.loginValidator = [
       }
     }),
 
-  ErrorValidator
+  ErrorValidator,
 ];

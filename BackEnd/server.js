@@ -4,9 +4,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const app = express();
 const globalError = require("./middleware/GlobalError");
-// const ApiError = require("./utils/ApiError");
 const dbConnection = require("./config/database");
 const userRoutes = require("./routes/UserRoutes");
+const notesRoutes = require("./routes/NotesRoutes");
 
 // env
 dotenv.config({ path: "config.env" });
@@ -22,9 +22,7 @@ app.use(cors());
 
 // Routes
 app.use("/auth", userRoutes);
-// app.all("*", (req, res, next) => {
-//   next(new ApiError(`This route not found ${req.originalUrl}`, 500));
-// });
+app.use("/notes", notesRoutes);
 
 // Global Error Handler
 app.use(globalError);
