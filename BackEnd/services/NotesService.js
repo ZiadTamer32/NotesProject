@@ -7,22 +7,27 @@ exports.addNotes = asyncHandler(async (req, res) => {
     title,
     description,
     tags,
-    user: req.user._id,
+    user: req.user._id
   });
   res.status(201).json({
     success: true,
     message: "Note added successfully",
-    note,
+    note
   });
 });
 
 exports.getNotes = asyncHandler(async (req, res) => {
-  const notes = await NotesModel.find({ user: req.user._id });
+  // Search notes
+  let query = { user: req.user._id };
+  if (req.query.keyword) {
+    query.$or = [{ title: { $regex: req.query.keyword, $options: "i" } }];
+  }
+  const notes = await NotesModel.find(query);
   res.status(200).json({
     success: true,
     results: notes.length,
     message: "Notes fetched successfully",
-    notes,
+    notes
   });
 });
 
@@ -33,14 +38,14 @@ exports.editNotes = asyncHandler(async (req, res) => {
     {
       title,
       description,
-      tags,
+      tags
     },
     { new: true }
   );
   res.status(200).json({
     success: true,
     message: "Note updated successfully",
-    note,
+    note
   });
 });
 
@@ -54,13 +59,13 @@ exports.isPinnedEdit = asyncHandler(async (req, res) => {
   const note = await NotesModel.findByIdAndUpdate(
     req.params.id,
     {
-      isPinned,
+      isPinned
     },
     { new: true }
   );
   res.status(200).json({
     success: true,
     message: "Note updated successfully",
-    note,
+    note
   });
 });
